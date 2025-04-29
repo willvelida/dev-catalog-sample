@@ -10,7 +10,7 @@ param appName string
 @description('The environment where this app will be deployed to')
 param environment string
 
-module logAnalytics 'br/VelocityPlatforms:log-analytics:v1' = {
+module logAnalytics 'modules/monitoring/log-analytics.bicep' = {
   name: 'law'
   params: {
     name: '${environment}-${appName}-law'
@@ -19,7 +19,7 @@ module logAnalytics 'br/VelocityPlatforms:log-analytics:v1' = {
   }
 }
 
-module appInsights 'br/VelocityPlatforms:app-insights:v1' = {
+module appInsights 'modules/monitoring/app-insights.bicep' = {
   name: 'appins'
   params: {
     name: '${environment}-${appName}-ains'
@@ -29,7 +29,7 @@ module appInsights 'br/VelocityPlatforms:app-insights:v1' = {
   }
 }
 
-module uai 'br/VelocityPlatforms:uai:v1' = {
+module uai 'modules/identity/user-assigned-identity.bicep' = {
   name: 'uai'
   params: {
     name: '${environment}-${appName}-uai'
@@ -38,7 +38,7 @@ module uai 'br/VelocityPlatforms:uai:v1' = {
   }
 }
 
-module appConfig 'br/VelocityPlatforms:app-config:v1' = {
+module appConfig 'modules/security/app-config.bicep' = {
   name: 'app-config'
   params: {
     name: '${environment}-${appName}-config'
@@ -49,7 +49,7 @@ module appConfig 'br/VelocityPlatforms:app-config:v1' = {
   }
 }
 
-module keyVault 'br/VelocityPlatforms:key-vault:v1' = {
+module keyVault 'modules/security/key-vault.bicep' = {
   name: 'kv'
   params: {
     name: '${environment}-${appName}-kv'
@@ -60,7 +60,7 @@ module keyVault 'br/VelocityPlatforms:key-vault:v1' = {
   }
 }
 
-module env 'br/VelocityPlatforms:container-app-env:v1' = {
+module env 'modules/host/container-app-env.bicep' = {
   name: 'env'
   params: {
     name: '${environment}-${appName}-env'
@@ -69,7 +69,7 @@ module env 'br/VelocityPlatforms:container-app-env:v1' = {
     logAnalyticsName: logAnalytics.outputs.logAnalyticsName
   }
 }
-module acr 'br/VelocityPlatforms:container-registry:v1' = {
+module acr 'modules/host/container-registry.bicep' = {
   name: 'acr'
   params: {
     name: '${environment}${appName}acr'
@@ -80,7 +80,7 @@ module acr 'br/VelocityPlatforms:container-registry:v1' = {
   }
 }
 
-module cosmosdb 'br/VelocityPlatforms:cosmos-db:v1' = {
+module cosmosdb 'modules/database/serverless-cosmos-db.bicep' = {
   name: 'cosmos-db'
   params: {
     location: location
